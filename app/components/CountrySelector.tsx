@@ -8,7 +8,9 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-export const countries = [
+type Country = { name: string; flag: string };
+
+export const countries: readonly Country[] = [
 { name: "United Kingdom", flag: "/flags/Unitedk.svg" },
   { name: "Deutschland", flag: "/flags/DEU.svg" },
   { name: "España", flag: "/flags/Spain.svg" },

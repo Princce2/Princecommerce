@@ -1,18 +1,16 @@
 import { Outlet, NavLink } from "react-router";
 import type { Route } from "./+types/layout";
-import { requireUserId } from "~/Features/auth/services/session.server";
+import { requireUserId } from "~/features/auth/services/session.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   await requireUserId(request);
   return null;
 }
 export default function DashboardLayout() {
-const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `text-green text-lg font-semibold ${
-    isActive
-      ? "text-green-300 hover:text-blue-500"
-      : "hover:text-yellow-500"
-  }`;
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `text-green text-lg font-semibold ${
+      isActive ? "text-green-300 hover:text-blue-500" : "hover:text-yellow-500"
+    }`;
   return (
     <div className="flex min-h-screen">
       <aside className="bg-green-800 px-10 py-10 w-56">

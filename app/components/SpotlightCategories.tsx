@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -7,7 +8,18 @@ import {
 } from "~/components/ui/carousel";
 
 import { Button } from "~/components/ui/button"
-const categories = [
+type Category = {
+  text: string;
+  className: string;
+};
+
+type SpotlightItem = {
+  image: string;
+  title: string;
+  subtitle: string;
+};
+
+const categories: readonly Category[] = [
   {
     text: "Men's Footwear",
     className: "bg-black text-white font-bold",
@@ -46,10 +58,10 @@ const categories = [
   },
 ];
 
-const spotlightItems = [
+const spotlightItems: readonly SpotlightItem[] = [
   {
     image: "/pocoxadid.webp",
-    title: "  Pokemon x adidas",
+    title: "Pokemon x adidas",
     subtitle: "Shop the latest drops",
   },
   { image: "/seasonE.webp", title: "Seasonal Essentials", subtitle: "New season styles" },
@@ -60,11 +72,11 @@ const spotlightItems = [
   },
 ];
 
-export default function SpotlightCategories() {
+export default function SpotlightCategories(): React.ReactElement {
   return (
     <section>
-      <div className="px-10">
-        <div className="flex items-center gap-10 mx-auto w-full">
+      <div className="px-4 sm:px-10">
+        <div className="flex items-center gap-4 sm:gap-10 mx-auto w-full">
           <div className="shrink-0">
             <h2 className="text-2xl font-bold mb-4">Spotlight Categories</h2>
           </div>
@@ -73,38 +85,38 @@ export default function SpotlightCategories() {
               align: "start",
               loop: true,
             }}
-            className="min-w-0 flex-1 px-8"
+            className="min-w-0 flex-1 sm:px-8"
           >
             <CarouselContent>
               {categories.map((item, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 sm:basis-1/3 md:basis-1/4"
+                  className="max-md:basis-auto md:basis-1/4"
                 >
                   <div
-                    className={`px-6 py-3 ${item.className} rounded-3xl text-center overflow-hidden whitespace-nowrap`}
+                    className={`px-4 py-2.5 text-sm sm:px-6 sm:py-3 ${item.className} rounded-3xl text-center overflow-hidden whitespace-nowrap`}
                   >
                     {item.text}
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-10 max-md:-left-8" />
-            <CarouselNext className="right-10 max-md:-right-8" />
+            <CarouselPrevious className="left-10 max-md:left-1" />
+            <CarouselNext className="right-10 max-md:right-1" />
           </Carousel>
         </div>
         {/* spotlight section */}
-        <div className="mt-10 w-full px-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="mt-10 w-full">
+          <div className="grid grid-cols-3 gap-4 sm:gap-10">
             {spotlightItems.map((item, index) => (
               <div key={index}>
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="aspect-[3/4] w-full object-cover mb-4"
+                  className="aspect-3/4 w-full object-cover mb-4"
                 />
-                <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
-                <button className="border border-black rounded-3xl px-6 py-3 text-sm font-semibold w-fit hover:bg-black hover:text-white transition-colors duration-300">
+                <h3 className="whitespace-nowrap text-base sm:text-xl font-semibold mb-3">{item.title}</h3>
+                <button className="border border-black rounded-3xl px-5 py-2.5 text-xs sm:px-6 sm:py-3 sm:text-sm font-semibold w-fit hover:bg-black hover:text-white transition-colors duration-300">
                   Shop Now
                 </button>
               </div>

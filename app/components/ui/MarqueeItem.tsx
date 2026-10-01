@@ -1,10 +1,12 @@
+import React from "react";
+
 type MarqueeItemProps = {
   text: string;
   icon?: string;
   className?: string;
 };
 
-function MarqueeItem({ text, icon, className = "", }: MarqueeItemProps) {
+function MarqueeItem({ text, icon, className = "", }: MarqueeItemProps): React.ReactElement {
   return (
     <div className="flex shrink-0 items-center">
       <span

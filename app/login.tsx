@@ -1,11 +1,13 @@
-
 import { useNavigation } from "react-router";
 import { parseWithZod } from "@conform-to/zod/v4";
 import type { Route } from "./+types/login";
-import { loginSchema } from "~/Features/auth/validation";
-import LoginForm from "~/Features/auth/components/LoginForm";
-import { getUserByEmail, verifyPassword } from "~/Features/auth/services/auth.server";
-import { createUserSession } from "~/Features/auth/services/session.server";
+import { loginSchema } from "~/features/auth/validation";
+import LoginForm from "~/features/auth/components/LoginForm";
+import {
+  getUserByEmail,
+  verifyPassword,
+} from "~/features/auth/services/auth.server";
+import { createUserSession } from "~/features/auth/services/session.server";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
@@ -16,14 +18,14 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const user = await getUserByEmail(submission.value.email);
-  const passwordIsCorrect = 
+  const passwordIsCorrect =
     user && verifyPassword(submission.value.password, user.passwordHash);
 
-    if (!user || !passwordIsCorrect) {
-      return submission.reply({
-        formErrors: ["Invalid email or password"],
-      });
-    }
+  if (!user || !passwordIsCorrect) {
+    return submission.reply({
+      formErrors: ["Invalid email or password"],
+    });
+  }
 
   return createUserSession(user.id, "/dashboard");
 }

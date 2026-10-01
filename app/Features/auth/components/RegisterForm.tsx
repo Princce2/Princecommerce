@@ -2,16 +2,16 @@ import { Form } from "react-router";
 import { useForm, getFormProps, getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
 import type { SubmissionResult } from "@conform-to/react";
-import { registerSchema } from "~/Features/auth/validation";
+import { registerSchema } from "~/features/auth/validation";
 
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
-import { 
+import {
   Card,
   CardContent,
-  CardDescription, 
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";

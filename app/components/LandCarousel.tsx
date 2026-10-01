@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +7,13 @@ import {
   CarouselPrevious,
 } from "~/components/ui/carousel";
 
-const images = [
+type CarouselImage = {
+  image: string;
+  price: string;
+  description: string;
+};
+
+const images: readonly CarouselImage[] = [
   {
     image: "/AirMax.webp",
     price: "£175",
@@ -59,7 +66,7 @@ const images = [
   },
 ];
 
-export default function LandCarousel() {
+export default function LandCarousel(): React.ReactElement {
   return (
     <div className="mx-auto w-full px-6">
       <Carousel
@@ -73,13 +80,13 @@ export default function LandCarousel() {
           {images.map((item, index) => (
             <CarouselItem
               key={index}
-              className="basis-1/2 md:basis-1/3 lg:basis-1/4"
+              className="basis-1/2 sm:basis-1/3 md:basis-1/4"
             >
               <div className="overflow-hidden rounded-xl mb-10">
                 <img
                   src={item.image}
                   alt={item.description.replace("\n", " ")}
-                  className="h-64 w-full object-cover"
+                  className="h-48 sm:h-64 w-full object-cover"
                 />
 
                 <div className="mt-4">

@@ -2,16 +2,16 @@ import { Form } from "react-router";
 import { useForm, getFormProps, getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
 import type { SubmissionResult } from "@conform-to/react";
-import { loginSchema } from "~/Features/auth/validation";
+import { loginSchema } from "~/features/auth/validation";
 
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
-import { 
+import {
   Card,
   CardContent,
-  CardDescription, 
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -57,7 +57,6 @@ export default function LoginForm({
                 } in this form.`}
             </div>
 
-        
             <div className="flex flex-col gap-2">
               <Label htmlFor={fields.email.id}>Email</Label>
 
@@ -77,7 +76,6 @@ export default function LoginForm({
               )}
             </div>
 
-           
             <div className="flex flex-col gap-2">
               <Label htmlFor={fields.password.id}>Password</Label>
 

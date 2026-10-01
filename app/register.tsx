@@ -1,9 +1,12 @@
 import { redirect, useNavigation } from "react-router";
 import { parseWithZod } from "@conform-to/zod/v4";
 import type { Route } from "./+types/register";
-import { registerSchema } from "~/Features/auth/validation";
-import { createUser, getUserByEmail } from "~/Features/auth/services/auth.server";
-import RegisterForm from "~/Features/auth/components/RegisterForm";
+import { registerSchema } from "~/features/auth/validation";
+import {
+  createUser,
+  getUserByEmail,
+} from "~/features/auth/services/auth.server";
+import RegisterForm from "~/features/auth/components/RegisterForm";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
@@ -14,10 +17,10 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const existing = await getUserByEmail(submission.value.email);
-  
+
   if (existing) {
     return submission.reply({
-      fieldErrors: {email: ["An account with this email already exists"]},
+      fieldErrors: { email: ["An account with this email already exists"] },
     });
   }
 
@@ -29,12 +32,15 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Register({ actionData }: Route.ComponentProps) {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-  const lastResult = actionData && "status" in actionData ? actionData : undefined;
+  const lastResult =
+    actionData && "status" in actionData ? actionData : undefined;
 
-  
   return (
     <div>
-      <RegisterForm lastResult={lastResult ?? null} isSubmitting={isSubmitting} />
+      <RegisterForm
+        lastResult={lastResult ?? null}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 }

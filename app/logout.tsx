@@ -1,5 +1,5 @@
 import type { Route } from "./+types/logout";
-import { logout } from "~/Features/auth/services/session.server";
+import { logout } from "~/features/auth/services/session.server";
 
 export async function action({ request }: Route.ActionArgs) {
   return logout(request);

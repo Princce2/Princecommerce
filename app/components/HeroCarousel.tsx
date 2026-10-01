@@ -1,6 +1,8 @@
+import React from "react";
 import { MarqueeItem } from "~/components/ui/MarqueeItem";
-export default function HeroCarousel() {
- const items = [
+export default function HeroCarousel(): React.ReactElement {
+ type MarqueeItemData = { text: string; className: string };
+ const items: readonly MarqueeItemData[] = [
    {
      text: "Klarna Available",
      className: "bg-black text-white",

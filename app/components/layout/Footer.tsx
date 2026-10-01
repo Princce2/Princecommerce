@@ -7,7 +7,9 @@ import { useState } from "react";
 import { ChevronDown, X } from "lucide-react";
 import { countries } from "~/components/CountrySelector";
 
-const footerLinksRow1 = [
+type FooterLink = { label: string; slug: string };
+
+const footerLinksRow1: readonly FooterLink[] = [
   { label: "Contact Us", slug: "contact-us" },
   { label: "Track my Order", slug: "track-my-order" },
   { label: "Size Guides", slug: "size-guides" },
@@ -18,7 +20,7 @@ const footerLinksRow1 = [
   { label: "Corporate", slug: "corporate" },
 ];
 
-const footerLinksRow2 = [
+const footerLinksRow2: readonly FooterLink[] = [
   { label: "Student Discount", slug: "student-discount" },
   { label: "Emergency Services Discount", slug: "emergency-services-discount" },
   { label: "Terms & Conditions", slug: "terms-and-conditions" },
@@ -28,7 +30,7 @@ const footerLinksRow2 = [
   { label: "FAQs", slug: "faqs" },
 ];
 
-const bottomLinks = [
+const bottomLinks: readonly FooterLink[] = [
   { label: "FAQs", slug: "faqs" },
   { label: "Accessibility", slug: "accessibility" },
   { label: "WEEE", slug: "weee" },
@@ -54,47 +56,33 @@ export default function Footer() {
         <hr className="my-4 border-white/60" />
 
         <div className="mb-4">
-          <div className="flex items-center justify-center gap-80 mb-4">
-            <p>app</p>
-            <p>launches</p>
-          </div>
-          <div className="flex items-center justify-center gap-10">
-            <div className="grid grid-cols-2 gap-4">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <img
-                  src="/Googleplay.png"
-                  alt="Get it on Google Play"
-                  className="h-12 w-auto"
-                />
-              </a>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <img
-                  src="/Applebadge.svg"
-                  alt="Get it on Google Play"
-                  className="h-12 w-auto"
-                />
-              </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-20 mb-4">
+            <div>
+              <p className="mb-3 font-semibold">app</p>
+              <div className="flex gap-3">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/Googleplay.png" alt="Get it on Google Play" className="h-10 w-auto" />
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/Applebadge.svg" alt="Download on the App Store" className="h-10 w-auto" />
+                </a>
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <img
-                  src="/Googleplay.png"
-                  alt="Get it on Google Play"
-                  className="h-12 w-auto"
-                />
-              </a>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <img
-                  src="/Applebadge.svg"
-                  alt="Get it on Google Play"
-                  className="h-12 w-auto"
-                />
-              </a>
+            <div>
+              <p className="mb-3 font-semibold">launches</p>
+              <div className="flex gap-3">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/Googleplay.png" alt="Get it on Google Play" className="h-10 w-auto" />
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/Applebadge.svg" alt="Download on the App Store" className="h-10 w-auto" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <p className="mb-10 mt-10">Sign up to get <span className="font-bold text-2xl">10% off*</span></p>
-        <Input placeholder="Enter your email here" />
+        <p className="mb-10 mt-10">Sign up to get <span className="font-bold text-xl sm:text-2xl">10% off*</span></p>
+        <Input placeholder="Enter your email here" className="mx-auto max-w-md" />
         <p className="mt-5">
           *Exclusions apply. We will use your information in <br /> accordance
           with our privacy policy
@@ -108,7 +96,7 @@ export default function Footer() {
           />
         </a>
 
-        <div className="flex justify-center gap-8 mb-8 text-3xl">
+        <div className="flex justify-center gap-6 sm:gap-8 mb-8 text-2xl md:text-3xl">
           <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <FaInstagram />
           </a>
@@ -134,7 +122,7 @@ export default function Footer() {
           </a>
         </div>
 
-        <Button className="rounded-none bg-white text-black hover:bg-black hover:text-white border-none mb-12 px-16 py-6 h-auto text-sm font-semibold tracking-wide">
+        <Button className="rounded-none bg-white text-black hover:bg-black hover:text-white border-none mb-12 px-10 sm:px-16 py-6 h-auto text-sm font-semibold tracking-wide">
           FIND YOUR NEAREST STORE
         </Button>
 
