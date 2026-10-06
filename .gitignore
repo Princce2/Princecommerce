@@ -3,6 +3,7 @@
 /node_modules/
 app.db
 *.db
+/freebuff/
 # React Router
 /.react-router/
 /build/

@@ -14,6 +14,8 @@ export default [
   route("login", "login.tsx"),
   route("logout", "logout.tsx"),
 
+  route(":gender/:category", "routes/catalog.tsx"),
+
   // shared info page for all footer links
   route("info/*", "routes/info.tsx"),
 
