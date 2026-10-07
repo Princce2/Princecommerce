@@ -36,22 +36,62 @@ export const catalogData = {
         {
           image: "/Menfootwear/adidaszurich1.webp",
           name: "adidas Originals Zurich Aditex - size? exclusive",
-          price: 95.00,
+          price: 95.0,
         },
         {
           image: "/Menfootwear/adidaszurich2.webp",
           name: "adidas Originals Zurich Aditex",
-          price: 95.00,
+          price: 95.0,
         },
         {
           image: "/Menfootwear/adidasspecialaditex.webp",
           name: "adidas Originals Handball Spezial Aditex",
-          price: 95.00,
+          price: 95.0,
         },
         {
           image: "/Menfootwear/nike95greedy.webp",
           name: "Nike Air Max 95 'Greedy'",
-          price: 175.00,
+          price: 175.0,
+        },
+        {
+          image: "/Menfootwear/adidasspezial.webp",
+          name: "adidas Originals Handball Spezial",
+          price: 100.0,
+        },
+        {
+          image: "/Menfootwear/72aditex.webp",
+          name: "adidas Originals SL 72 RS Aditex",
+          price: 90.0,
+        },
+        {
+          image: "/Menfootwear/specialWTR.webp",
+          name: "adidas Originals Handball Spezial WTR",
+          price: 110.0,
+        },
+        {
+          image: "/Menfootwear/specialWTR2.webp",
+          name: "adidas Originals Handball Spezial WTR",
+          price: 110.0,
+        },
+        {
+          image: "/Menfootwear/72aditex2.webp",
+          name: "adidas Originals SL 72 RS Aditex",
+          price: 90.0,
+        },
+        {
+          image: "/Menfootwear/goretex.webp",
+          name: "Saucony Shadow 6000 GORE-TEX",
+          price: 140.0,
+        },
+        {
+          image: "/Menfootwear/omni9og.webp",
+          name: "Saucony ProGrid Omni 9 OG",
+          price: 140.0,
+        },
+        {
+          image: "/Menfootwear/omni9goretex.webp",
+          name: "Saucony ProGrid Omni 9 GORE-TEX",
+          price: 180.0,
         },
       ],
     },

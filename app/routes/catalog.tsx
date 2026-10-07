@@ -124,7 +124,7 @@ export default function CatalogPage({
                 <button
                   type="button"
                   onClick={() => setGridColumns(3)}
-                  className={`flex w-13 items-center justify-center ${
+                  className={`flex w-13 items-center justify-center hover:bg-black text-white ${
                     gridColumns === 3 ? "bg-gray-100" : ""
                   }`}
                   aria-label="Show 3 products per row"
@@ -151,7 +151,7 @@ export default function CatalogPage({
                 <button
                   type="button"
                   onClick={() => setGridColumns(4)}
-                  className={`flex w-15 items-center justify-center border-l border-gray-200 ${
+                  className={`flex w-15 items-center justify-center border-l border-gray-200 hover:bg-black text-white ${
                     gridColumns === 4 ? "bg-gray-100" : ""
                   }`}
                   aria-label="Show 4 products per row"
@@ -192,7 +192,7 @@ export default function CatalogPage({
 
           {/* Product grid will go here */}
           <div
-            className={`mt-6 grid gap-4 ${
+            className={`mt-6 grid gap-4 mb-10 ${
               gridColumns === 3 ? "grid-cols-3" : "grid-cols-4"
             }`}
           >
@@ -202,10 +202,10 @@ export default function CatalogPage({
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="aspect-[4/5] w-full object-cover"
+                    className="w-full h-65 object-cover"
                   />
 
-                  <div className="absolute top-0 bg-gray-300 px-3 py-1 text-xs font-medium">
+                  <div className="absolute top-0 bg-[#979797] text-center  w-full py-3 text-xs text-gray-200 font-medium">
                     FREE DELIVERY
                   </div>
                 </div>
