@@ -31,6 +31,29 @@ export const catalogData = {
         "Men's White Trainers",
         "Men's Black Trainers",
       ],
+
+      products: [
+        {
+          image: "/Menfootwear/adidaszurich1.webp",
+          name: "adidas Originals Zurich Aditex - size? exclusive",
+          price: 95.00,
+        },
+        {
+          image: "/Menfootwear/adidaszurich2.webp",
+          name: "adidas Originals Zurich Aditex",
+          price: 95.00,
+        },
+        {
+          image: "/Menfootwear/adidasspecialaditex.webp",
+          name: "adidas Originals Handball Spezial Aditex",
+          price: 95.00,
+        },
+        {
+          image: "/Menfootwear/nike95greedy.webp",
+          name: "Nike Air Max 95 'Greedy'",
+          price: 175.00,
+        },
+      ],
     },
   },
 } as const;

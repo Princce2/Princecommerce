@@ -104,6 +104,7 @@ export default function Header() {
           <div className="min-w-0 flex-1 border-l border-white/40 px-6 py-3">
             <SearchInput />
           </div>
+          
           <div className="flex items-center border-l border-white/40 px-5">
             <CountrySelector />
           </div>
