@@ -31,6 +31,7 @@ export default function CatalogPage({
 }: Route.ComponentProps) {
   const [showMore, setShowMore] = useState(false);
   const [gridColumns, setGridColumns] = useState(4);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   return (
     <main className="">
       <div className="text-center px-10 pt-10">
@@ -99,10 +100,65 @@ export default function CatalogPage({
 
           {/* Brand filters */}
           <div className="border-t border-gray-200 pt-5">
-            <p className="text-sm">adidas</p>
-            <p className="text-sm">Nike</p>
-            <p className="text-sm">ASICS</p>
-            <p className="text-sm">Birkenstock</p>
+            <label className="flex items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes("adidas")}
+                onChange={() => {
+                  setSelectedBrands((brands) =>
+                    brands.includes("adidas")
+                      ? brands.filter((brand) => brand !== "adidas")
+                      : [...brands, "adidas"],
+                  );
+                }}
+              />
+              adidas
+            </label>
+
+            <label className="mt-4 flex items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes("Nike")}
+                onChange={() => {
+                  setSelectedBrands((brands) =>
+                    brands.includes("Nike")
+                      ? brands.filter((brand) => brand !== "Nike")
+                      : [...brands, "Nike"],
+                  );
+                }}
+              />
+              Nike
+            </label>
+
+            <label className="mt-4 flex items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes("ASICS")}
+                onChange={() => {
+                  setSelectedBrands((brands) =>
+                    brands.includes("ASICS")
+                      ? brands.filter((brand) => brand !== "ASICS")
+                      : [...brands, "ASICS"],
+                  );
+                }}
+              />
+              ASICS
+            </label>
+
+            <label className="mt-4 flex items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes("Birkenstock")}
+                onChange={() => {
+                  setSelectedBrands((brands) =>
+                    brands.includes("Birkenstock")
+                      ? brands.filter((brand) => brand !== "Birkenstock")
+                      : [...brands, "Birkenstock"],
+                  );
+                }}
+              />
+              Birkenstock
+            </label>
           </div>
         </aside>
 
@@ -124,25 +180,31 @@ export default function CatalogPage({
                 <button
                   type="button"
                   onClick={() => setGridColumns(3)}
-                  className={`flex w-13 items-center justify-center hover:bg-black text-white ${
+                  className={`group flex w-13 items-center justify-center ${
                     gridColumns === 3 ? "bg-gray-100" : ""
-                  }`}
+                  } hover:bg-black`}
                   aria-label="Show 3 products per row"
                 >
                   <span className="flex items-center gap-1">
                     <span
                       className={`size-2 ${
-                        gridColumns === 3 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 3
+                          ? "bg-black group-hover:bg-gray-500"
+                          : "bg-gray-500 group-hover:bg-gray-500"
                       }`}
                     />
                     <span
                       className={`size-2 ${
-                        gridColumns === 3 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 3
+                          ? "bg-black group-hover:bg-gray-500"
+                          : "bg-gray-500 group-hover:bg-gray-500"
                       }`}
                     />
                     <span
                       className={`size-2 ${
-                        gridColumns === 3 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 3
+                          ? "bg-black group-hover:bg-gray-500"
+                          : "bg-gray-500 group-hover:bg-gray-500"
                       }`}
                     />
                   </span>
@@ -151,30 +213,38 @@ export default function CatalogPage({
                 <button
                   type="button"
                   onClick={() => setGridColumns(4)}
-                  className={`flex w-15 items-center justify-center border-l border-gray-200 hover:bg-black text-white ${
+                  className={`group flex w-15 items-center justify-center border-l border-gray-200 ${
                     gridColumns === 4 ? "bg-gray-100" : ""
-                  }`}
+                  } hover:bg-black`}
                   aria-label="Show 4 products per row"
                 >
                   <span className="flex items-center gap-1">
                     <span
                       className={`size-2 ${
-                        gridColumns === 4 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 4
+                          ? "bg-gray-500 group-hover:bg-gray-500"
+                          : "bg-gray-300 group-hover:bg-gray-500"
                       }`}
                     />
                     <span
                       className={`size-2 ${
-                        gridColumns === 4 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 4
+                          ? "bg-gray-500 group-hover:bg-gray-500"
+                          : "bg-gray-300 group-hover:bg-gray-300"
                       }`}
                     />
                     <span
                       className={`size-2 ${
-                        gridColumns === 4 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 4
+                          ? "bg-gray-500 group-hover:bg-gray-500"
+                          : "bg-gray-300 group-hover:bg-gray-300"
                       }`}
                     />
                     <span
                       className={`size-2 ${
-                        gridColumns === 4 ? "bg-black" : "bg-gray-300"
+                        gridColumns === 4
+                          ? "bg-gray-500 group-hover:bg-gray-500"
+                          : "bg-gray-300 group-hover:bg-gray-300"
                       }`}
                     />
                   </span>
