@@ -5,11 +5,9 @@ import { ChevronRight } from "lucide-react";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const gender = params.gender as keyof typeof catalogData;
-
   const genderData = catalogData[gender];
 
   const category = params.category as keyof NonNullable<typeof genderData>;
-
   const categoryData = genderData?.[category];
 
   if (!categoryData) {
@@ -28,25 +26,50 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
   const [gridColumns, setGridColumns] = useState(4);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
+  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
+  const filteredProducts = loaderData.products.filter((product) => {
+    const matchesBrand =
+      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
+    const matchesSize =
+      selectedSizes.length === 0 ||
+      selectedSizes.some((size) => product.sizes.includes(size));
 
-  const filteredProducts =
-    selectedBrands.length === 0
-      ? loaderData.products
-      : loaderData.products.filter((product) =>
-        selectedBrands.includes(product.brand), );
+    const matchesStyle =
+      selectedStyles.length === 0 ||
+      product.styles.some((style) => selectedStyles.includes(style));
+
+    const matchesColor =
+      selectedColors.length === 0 ||
+      product.colors.some((color) => selectedColors.includes(color));
+
+    return matchesBrand && matchesSize && matchesStyle && matchesColor;
+  });
 
   const availableSizes = [
     ...new Set(loaderData.products.flatMap((product) => product.sizes)),
   ].sort((a, b) => a - b);
-      
+
+  const availableStyles = [
+    ...new Set(loaderData.products.flatMap((product) => product.styles)),
+  ].sort();
+
+  const availableColors = [
+    ...new Set(loaderData.products.flatMap((product) => product.colors)),
+  ].sort();
+
+  const availableBrands = [
+    ...new Set(loaderData.products.map((product) => product.brand)),
+  ].sort();
+
   return (
-    <main className="">
-      <div className="text-center px-10 pt-10">
+    <main>
+      <div className="px-10 pt-10 text-center">
         <h1 className="text-4xl font-bold">{loaderData.title}</h1>
 
-        <p className="mx-auto mt-8 max-w-7xl text-center text-lg leading-7 sm:border-l sm:border-r ">
+        <p className="mx-auto mt-8 max-w-7xl text-center text-lg leading-7 sm:border-l sm:border-r">
           {loaderData.description}{" "}
           <button
             type="button"
@@ -57,13 +80,11 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
           </button>
         </p>
 
-        {/* Readmore */}
         {showMore && (
           <div className="mt-10 space-y-8 text-center">
             {loaderData.readMore.map((section) => (
               <section key={section.title}>
                 <h2 className="font-bold">{section.title}</h2>
-
                 <p className="mx-auto mt-2 max-w-6xl leading-7">
                   {section.description}
                 </p>
@@ -73,189 +94,72 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
         )}
       </div>
 
-      {/* links */}
+      {/* Links */}
       <div className="mt-10 grid grid-cols-2 border-y border-gray-200 md:grid-cols-3 lg:grid-cols-6">
         {loaderData.links.map((link) => (
           <a
             key={link}
             href="#"
-            className="flex min-h-14 items-center justify-center border-gray-200 px-4 py-3 text-center text-sm font-semibold uppercase hover:bg-gray-50 border-r lg:last:border-r-0"
+            className="flex min-h-14 items-center justify-center border-r border-gray-200 px-4 py-3 text-center text-sm font-semibold uppercase hover:bg-gray-50 lg:last:border-r-0"
           >
             {link}
           </a>
         ))}
       </div>
 
-      {/* breadcrumb */}
+      {/* Breadcrumb */}
       <nav className="px-10 py-6 text-sm">
         <a href="/">Home</a>
-
         <ChevronRight className="mx-2 inline h-4 w-4" />
-
         <span className="capitalize">{loaderData.gender}</span>
-
         <ChevronRight className="mx-2 inline h-4 w-4" />
-
         <span className="capitalize">{loaderData.category}</span>
       </nav>
 
       <div className="grid grid-cols-[240px_1fr] gap-6 px-10">
         {/* Filter sidebar */}
         <aside>
-          {/* Filter heading */}
+          {/* Brand filter */}
           <div className="flex h-14 items-center">
             <h2 className="text-sm font-bold">Brand</h2>
           </div>
 
-          {/* Brand filters */}
           <div className="border-t border-gray-200 pt-5">
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes("adidas")}
-                onChange={() => {
-                  setSelectedBrands((brands) =>
-                    brands.includes("adidas")
-                      ? brands.filter((brand) => brand !== "adidas")
-                      : [...brands, "adidas"],
-                  );
-                }}
-              />
-              <span className="flex items-center gap-1">
-                <span>adidas</span>
-                <div>
-                  (
-                  <span className="text-gray-500">
-                    {
-                      loaderData.products.filter(
-                        (product) => product.brand === "adidas",
-                      ).length
-                    }
+            {availableBrands.map((brand, index) => {
+              const brandCount = loaderData.products.filter(
+                (product) => product.brand === brand,
+              ).length;
+
+              return (
+                <label
+                  key={brand}
+                  className={`flex items-center gap-3 text-sm ${
+                    index > 0 ? "mt-4" : ""
+                  } ${index === availableBrands.length - 1 ? "pb-10" : ""}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedBrands.includes(brand)}
+                    onChange={() => {
+                      setSelectedBrands((brands) =>
+                        brands.includes(brand)
+                          ? brands.filter((item) => item !== brand)
+                          : [...brands, brand],
+                      );
+                    }}
+                  />
+
+                  <span className="flex items-center gap-1">
+                    <span>{brand}</span>
+                    <span className="text-gray-500">({brandCount})</span>
                   </span>
-                  )
-                </div>
-              </span>
-            </label>
-
-            <label className="mt-4 flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes("Nike")}
-                onChange={() => {
-                  setSelectedBrands((brands) =>
-                    brands.includes("Nike")
-                      ? brands.filter((brand) => brand !== "Nike")
-                      : [...brands, "Nike"],
-                  );
-                }}
-              />
-
-              <span className="flex items-center gap-1">
-                <span>Nike</span>
-                <div>
-                  (
-                  <span className="text-gray-500">
-                    {
-                      loaderData.products.filter(
-                        (product) => product.brand === "Nike",
-                      ).length
-                    }
-                  </span>
-                  )
-                </div>
-              </span>
-            </label>
-
-            <label className="mt-4 flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes("ASICS")}
-                onChange={() => {
-                  setSelectedBrands((brands) =>
-                    brands.includes("ASICS")
-                      ? brands.filter((brand) => brand !== "ASICS")
-                      : [...brands, "ASICS"],
-                  );
-                }}
-              />
-
-              <span className="flex items-center gap-1">
-                <span>ASICS</span>
-                <div>
-                  (
-                  <span className="text-gray-500">
-                    {
-                      loaderData.products.filter(
-                        (product) => product.brand === "ASICS",
-                      ).length
-                    }
-                  </span>
-                  )
-                </div>
-              </span>
-            </label>
-
-            <label className="mt-4 flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes("Birkenstock")}
-                onChange={() => {
-                  setSelectedBrands((brands) =>
-                    brands.includes("Birkenstock")
-                      ? brands.filter((brand) => brand !== "Birkenstock")
-                      : [...brands, "Birkenstock"],
-                  );
-                }}
-              />
-
-              <span className="flex items-center gap-1">
-                <span>Birkenstock</span>
-                <div>
-                  (
-                  <span className="text-gray-500">
-                    {
-                      loaderData.products.filter(
-                        (product) => product.brand === "Birkenstock",
-                      ).length
-                    }
-                  </span>
-                  )
-                </div>
-              </span>
-            </label>
-            <label className="mt-4 flex items-center gap-3 text-sm pb-10">
-              <input
-                type="checkbox"
-                className="rounded-2xl"
-                checked={selectedBrands.includes("Saucony")}
-                onChange={() => {
-                  setSelectedBrands((brands) =>
-                    brands.includes("Saucony")
-                      ? brands.filter((brand) => brand !== "Saucony")
-                      : [...brands, "Saucony"],
-                  );
-                }}
-              />
-
-              <span className="flex items-center gap-1">
-                <span>Saucony</span>
-                <div>
-                  (
-                  <span className="text-gray-500">
-                    {
-                      loaderData.products.filter(
-                        (product) => product.brand === "Saucony",
-                      ).length
-                    }
-                  </span>
-                  )
-                </div>
-              </span>
-            </label>
+                </label>
+              );
+            })}
           </div>
 
-          {/* size filters */}
-          <div className="border-t border-gray-200 flex h-14 items-center">
+          {/* Size filter */}
+          <div className="flex h-14 items-center border-t border-gray-200">
             <h2 className="text-sm font-bold">Size</h2>
           </div>
 
@@ -276,9 +180,7 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                     onChange={() => {
                       setSelectedSizes((sizes) =>
                         sizes.includes(size)
-                          ? sizes.filter(
-                              (selectedSize) => selectedSize !== size,
-                            )
+                          ? sizes.filter((item) => item !== size)
                           : [...sizes, size],
                       );
                     }}
@@ -287,6 +189,80 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                   <span className="flex items-center gap-1">
                     <span>{size}</span>
                     <span className="text-gray-500">({sizeCount})</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+
+          {/* Style filter */}
+          <div className="mt-6 flex h-14 items-center border-t border-gray-200">
+            <h2 className="text-sm font-bold">Style</h2>
+          </div>
+
+          <div className="pt-2">
+            {availableStyles.map((style) => {
+              const styleCount = loaderData.products.filter((product) =>
+                product.styles.includes(style),
+              ).length;
+
+              return (
+                <label
+                  key={style}
+                  className="mt-4 flex items-center gap-3 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedStyles.includes(style)}
+                    onChange={() => {
+                      setSelectedStyles((styles) =>
+                        styles.includes(style)
+                          ? styles.filter((item) => item !== style)
+                          : [...styles, style],
+                      );
+                    }}
+                  />
+
+                  <span className="flex items-center gap-1">
+                    <span>{style}</span>
+                    <span className="text-gray-500">({styleCount})</span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+
+          {/* Colour filter */}
+          <div className="mt-6 flex h-14 items-center border-t border-gray-200">
+            <h2 className="text-sm font-bold">Colour</h2>
+          </div>
+
+          <div className="pb-10 pt-2">
+            {availableColors.map((color) => {
+              const colorCount = loaderData.products.filter((product) =>
+                product.colors.includes(color),
+              ).length;
+
+              return (
+                <label
+                  key={color}
+                  className="mt-4 flex items-center gap-3 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedColors.includes(color)}
+                    onChange={() => {
+                      setSelectedColors((colors) =>
+                        colors.includes(color)
+                          ? colors.filter((item) => item !== color)
+                          : [...colors, color],
+                      );
+                    }}
+                  />
+
+                  <span className="flex items-center gap-1">
+                    <span>{color}</span>
+                    <span className="text-gray-500">({colorCount})</span>
                   </span>
                 </label>
               );
@@ -308,7 +284,7 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
               </button>
 
               {/* Grid controls */}
-              <div className="flex h-10 border border-gray-200 ">
+              <div className="flex h-10 border border-gray-200">
                 <button
                   type="button"
                   onClick={() => setGridColumns(3)}
@@ -318,27 +294,16 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                   aria-label="Show 3 products per row"
                 >
                   <span className="flex items-center gap-1">
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 3
-                          ? "bg-black group-hover:bg-gray-500"
-                          : "bg-gray-500 group-hover:bg-gray-500"
-                      }`}
-                    />
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 3
-                          ? "bg-black group-hover:bg-gray-500"
-                          : "bg-gray-500 group-hover:bg-gray-500"
-                      }`}
-                    />
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 3
-                          ? "bg-black group-hover:bg-gray-500"
-                          : "bg-gray-500 group-hover:bg-gray-500"
-                      }`}
-                    />
+                    {Array.from({ length: 3 }, (_, index) => (
+                      <span
+                        key={index}
+                        className={`size-2 ${
+                          gridColumns === 3
+                            ? "bg-black group-hover:bg-gray-500"
+                            : "bg-gray-500 group-hover:bg-gray-500"
+                        }`}
+                      />
+                    ))}
                   </span>
                 </button>
 
@@ -351,34 +316,16 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                   aria-label="Show 4 products per row"
                 >
                   <span className="flex items-center gap-1">
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 4
-                          ? "bg-gray-500 group-hover:bg-gray-500"
-                          : "bg-gray-300 group-hover:bg-gray-500"
-                      }`}
-                    />
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 4
-                          ? "bg-gray-500 group-hover:bg-gray-500"
-                          : "bg-gray-300 group-hover:bg-gray-300"
-                      }`}
-                    />
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 4
-                          ? "bg-gray-500 group-hover:bg-gray-500"
-                          : "bg-gray-300 group-hover:bg-gray-300"
-                      }`}
-                    />
-                    <span
-                      className={`size-2 ${
-                        gridColumns === 4
-                          ? "bg-gray-500 group-hover:bg-gray-500"
-                          : "bg-gray-300 group-hover:bg-gray-300"
-                      }`}
-                    />
+                    {Array.from({ length: 4 }, (_, index) => (
+                      <span
+                        key={index}
+                        className={`size-2 ${
+                          gridColumns === 4
+                            ? "bg-gray-500 group-hover:bg-gray-500"
+                            : "bg-gray-300 group-hover:bg-gray-500"
+                        }`}
+                      />
+                    ))}
                   </span>
                 </button>
               </div>
@@ -392,10 +339,9 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
             </div>
           </div>
 
-          {/* Product grid will go here */}
-
+          {/* Product grid */}
           <div
-            className={`mt-6 grid gap-4 mb-10 ${
+            className={`mb-10 mt-6 grid gap-4 ${
               gridColumns === 3 ? "grid-cols-3" : "grid-cols-4"
             }`}
           >
@@ -405,10 +351,10 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-65 object-cover"
+                    className="h-65 w-full object-cover"
                   />
 
-                  <div className="absolute top-0 bg-[#979797] text-center w-full py-3 text-xs text-gray-200 font-medium">
+                  <div className="absolute top-0 w-full bg-[#979797] py-3 text-center text-xs font-medium text-gray-200">
                     FREE DELIVERY
                   </div>
                 </div>

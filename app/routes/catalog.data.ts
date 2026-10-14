@@ -23,6 +23,7 @@ export const catalogData = {
             "Since our inception in 2000, we have been a continual presence in the territory of terrace trainers. Peppered with plenty of premium suede and leather low-top staples, our selection includes many classic adidas Originals styles, such as the Handball Spezial, Gazelle, and Samba, as well as our own size? exclusive collaborations straight from adidas' archives.",
         },
       ],
+
       links: [
         "Men's Adidas Trainers",
         "Men's Nike Trainers",
@@ -39,6 +40,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [7, 8, 9, 10, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Grey", "Blue"],
         },
         {
           image: "/Menfootwear/adidaszurich2.webp",
@@ -46,6 +49,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [6, 7, 8, 9],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "Brown"],
         },
         {
           image: "/Menfootwear/adidasspecialaditex.webp",
@@ -53,6 +58,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [7, 8, 10, 11, 12],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "Brown"],
         },
         {
           image: "/Menfootwear/nike95greedy.webp",
@@ -60,6 +67,8 @@ export const catalogData = {
           brand: "Nike",
           price: 175.0,
           sizes: [6, 7, 8, 9, 10],
+          styles: ["Trainers", "Vintage Running"],
+          colors: ["Black", "Grey", "Orange"],
         },
         {
           image: "/Menfootwear/adidasspezial.webp",
@@ -67,6 +76,8 @@ export const catalogData = {
           brand: "adidas",
           price: 100.0,
           sizes: [6, 8, 9, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "White"],
         },
         {
           image: "/Menfootwear/72aditex.webp",
@@ -74,6 +85,8 @@ export const catalogData = {
           brand: "adidas",
           price: 90.0,
           sizes: [7, 9, 10, 12],
+          styles: ["Terrace", "Vintage Running"],
+          colors: ["Blue", "Grey"],
         },
         {
           image: "/Menfootwear/specialWTR.webp",
@@ -81,6 +94,8 @@ export const catalogData = {
           brand: "adidas",
           price: 110.0,
           sizes: [6, 7, 8, 10],
+          styles: ["Terrace", "Trainers"],
+          colors: ["White", "Beige"],
         },
         {
           image: "/Menfootwear/specialWTR2.webp",
@@ -88,6 +103,8 @@ export const catalogData = {
           brand: "adidas",
           price: 110.0,
           sizes: [8, 9, 10, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Black", "Grey"],
         },
         {
           image: "/Menfootwear/72aditex2.webp",
@@ -95,6 +112,8 @@ export const catalogData = {
           brand: "adidas",
           price: 90.0,
           sizes: [7, 8, 9, 10],
+          styles: ["Terrace", "Vintage Running"],
+          colors: ["Blue", "White"],
         },
         {
           image: "/Menfootwear/goretex.webp",
@@ -102,6 +121,8 @@ export const catalogData = {
           brand: "Saucony",
           price: 140.0,
           sizes: [7, 8, 9, 11, 12],
+          styles: ["Vintage Running", "Trail Running"],
+          colors: ["Grey", "Blue"],
         },
         {
           image: "/Menfootwear/omni9og.webp",
@@ -109,6 +130,8 @@ export const catalogData = {
           brand: "Saucony",
           price: 140.0,
           sizes: [6, 8, 10, 11],
+          styles: ["Vintage Running", "Trainers"],
+          colors: ["Grey", "White"],
         },
         {
           image: "/Menfootwear/omni9goretex.webp",
@@ -116,6 +139,8 @@ export const catalogData = {
           brand: "Saucony",
           price: 180.0,
           sizes: [7, 9, 10, 12],
+          styles: ["Vintage Running", "Trail Running"],
+          colors: ["Black", "Grey"],
         },
         {
           image: "/Menfootwear/adidaszurich1.webp",
@@ -123,6 +148,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [8, 9, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Grey", "Blue"],
         },
         {
           image: "/Menfootwear/adidaszurich2.webp",
@@ -130,6 +157,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [6, 7, 10, 12],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "Brown"],
         },
         {
           image: "/Menfootwear/adidasspecialaditex.webp",
@@ -137,6 +166,8 @@ export const catalogData = {
           brand: "adidas",
           price: 95.0,
           sizes: [7, 8, 9],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "Brown"],
         },
         {
           image: "/Menfootwear/nike95greedy.webp",
@@ -144,6 +175,8 @@ export const catalogData = {
           brand: "Nike",
           price: 175.0,
           sizes: [8, 9, 10, 11],
+          styles: ["Trainers", "Vintage Running"],
+          colors: ["Black", "Grey", "Orange"],
         },
         {
           image: "/Menfootwear/adidasspezial.webp",
@@ -151,6 +184,8 @@ export const catalogData = {
           brand: "adidas",
           price: 100.0,
           sizes: [7, 9, 10, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Beige", "White"],
         },
         {
           image: "/Menfootwear/72aditex.webp",
@@ -158,6 +193,8 @@ export const catalogData = {
           brand: "adidas",
           price: 90.0,
           sizes: [6, 8, 9, 12],
+          styles: ["Terrace", "Vintage Running"],
+          colors: ["Blue", "Grey"],
         },
         {
           image: "/Menfootwear/specialWTR.webp",
@@ -165,6 +202,8 @@ export const catalogData = {
           brand: "adidas",
           price: 110.0,
           sizes: [7, 8, 11, 12],
+          styles: ["Terrace", "Trainers"],
+          colors: ["White", "Beige"],
         },
         {
           image: "/Menfootwear/specialWTR2.webp",
@@ -172,6 +211,8 @@ export const catalogData = {
           brand: "adidas",
           price: 110.0,
           sizes: [6, 9, 10, 11],
+          styles: ["Terrace", "Trainers"],
+          colors: ["Black", "Grey"],
         },
       ],
     },
