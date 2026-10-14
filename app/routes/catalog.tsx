@@ -28,25 +28,33 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
   const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [minPrice, setMinPrice] = useState(20);
+  const [maxPrice, setMaxPrice] = useState(480);
 
-  const filteredProducts = loaderData.products.filter((product) => {
-    const matchesBrand =
-      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
-    const matchesSize =
-      selectedSizes.length === 0 ||
-      selectedSizes.some((size) => product.sizes.includes(size));
+const filteredProducts = loaderData.products.filter((product) => {
+  const matchesBrand =
+    selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
-    const matchesStyle =
-      selectedStyles.length === 0 ||
-      product.styles.some((style) => selectedStyles.includes(style));
+  const matchesSize =
+    selectedSizes.length === 0 ||
+    selectedSizes.some((size) => product.sizes.includes(size));
 
-    const matchesColor =
-      selectedColors.length === 0 ||
-      product.colors.some((color) => selectedColors.includes(color));
+  const matchesStyle =
+    selectedStyles.length === 0 ||
+    product.styles.some((style) => selectedStyles.includes(style));
 
-    return matchesBrand && matchesSize && matchesStyle && matchesColor;
-  });
+  const matchesColor =
+    selectedColors.length === 0 ||
+    product.colors.some((color) => selectedColors.includes(color));
+
+  const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
+
+  return (
+    matchesBrand && matchesSize && matchesStyle && matchesColor && matchesPrice
+  );
+});
+
 
   const availableSizes = [
     ...new Set(loaderData.products.flatMap((product) => product.sizes)),
@@ -267,6 +275,72 @@ export default function CatalogPage({ loaderData }: Route.ComponentProps) {
                 </label>
               );
             })}
+          </div>
+
+          {/* Price filter */}
+          <div className="mt-6 border-t border-gray-200">
+            <div className="flex h-14 items-center justify-between">
+              <h2 className="text-sm font-bold">Price</h2>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMinPrice(20);
+                  setMaxPrice(480);
+                }}
+                className="text-xl leading-none"
+                aria-label="Reset price filter"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Dual-handle slider */}
+            <div className="relative mt-2 h-8">
+              {/* Slider track */}
+              <div className="absolute top-1/2 h-1 w-full -translate-y-1/2 bg-gray-200">
+                <div
+                  className="absolute h-full bg-black"
+                  style={{
+                    left: `${((minPrice - 20) / 460) * 100}%`,
+                    right: `${100 - ((maxPrice - 20) / 460) * 100}%`,
+                  }}
+                />
+              </div>
+
+              {/* Minimum price handle */}
+              <input
+                type="range"
+                min={20}
+                max={480}
+                step={1}
+                value={minPrice}
+                onChange={(event) => {
+                  setMinPrice(Math.min(Number(event.target.value), maxPrice));
+                }}
+                aria-label="Minimum price"
+                className="price-range-thumb absolute inset-0 z-20 h-full w-full"
+              />
+
+              {/* Maximum price handle */}
+              <input
+                type="range"
+                min={20}
+                max={480}
+                step={1}
+                value={maxPrice}
+                onChange={(event) => {
+                  setMaxPrice(Math.max(Number(event.target.value), minPrice));
+                }}
+                aria-label="Maximum price"
+                className="price-range-thumb absolute inset-0 z-10 h-full w-full"
+              />
+            </div>
+
+            {/* Selected price range */}
+            <p className="mt-3 text-center text-xs text-gray-700">
+              From £{minPrice.toFixed(2)} - To £{maxPrice.toFixed(2)}
+            </p>
           </div>
         </aside>
 

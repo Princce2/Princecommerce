@@ -161,3 +161,46 @@ body {
     @apply font-sans;
   }
 }
+
+
+.price-range-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.price-range-thumb::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+
+.price-range-thumb::-moz-range-track {
+  height: 4px;
+  background: transparent;
+}
+
+.price-range-thumb::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 26px;
+  margin-top: -11px;
+  border: 1px solid #d1d5db;
+  border-radius: 0;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.price-range-thumb::-moz-range-thumb {
+  width: 14px;
+  height: 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 0;
+  background: white;
+  pointer-events: auto;
+  cursor: grab;
+}
