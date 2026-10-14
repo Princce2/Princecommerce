@@ -1,4 +1,3 @@
-
 import type { Route } from "./+types/catalog";
 import { catalogData } from "./catalog.data";
 import { useState } from "react";
@@ -9,9 +8,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const genderData = catalogData[gender];
 
-  const category = params.category as keyof NonNullable<
-    typeof genderData
-  >;
+  const category = params.category as keyof NonNullable<typeof genderData>;
 
   const categoryData = genderData?.[category];
 
@@ -26,12 +23,24 @@ export async function loader({ params }: Route.LoaderArgs) {
   };
 }
 
-export default function CatalogPage({
-  loaderData,
-}: Route.ComponentProps) {
+export default function CatalogPage({ loaderData }: Route.ComponentProps) {
   const [showMore, setShowMore] = useState(false);
   const [gridColumns, setGridColumns] = useState(4);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
+
+
+
+  const filteredProducts =
+    selectedBrands.length === 0
+      ? loaderData.products
+      : loaderData.products.filter((product) =>
+        selectedBrands.includes(product.brand), );
+
+  const availableSizes = [
+    ...new Set(loaderData.products.flatMap((product) => product.sizes)),
+  ].sort((a, b) => a - b);
+      
   return (
     <main className="">
       <div className="text-center px-10 pt-10">
@@ -112,7 +121,20 @@ export default function CatalogPage({
                   );
                 }}
               />
-              adidas
+              <span className="flex items-center gap-1">
+                <span>adidas</span>
+                <div>
+                  (
+                  <span className="text-gray-500">
+                    {
+                      loaderData.products.filter(
+                        (product) => product.brand === "adidas",
+                      ).length
+                    }
+                  </span>
+                  )
+                </div>
+              </span>
             </label>
 
             <label className="mt-4 flex items-center gap-3 text-sm">
@@ -127,7 +149,21 @@ export default function CatalogPage({
                   );
                 }}
               />
-              Nike
+
+              <span className="flex items-center gap-1">
+                <span>Nike</span>
+                <div>
+                  (
+                  <span className="text-gray-500">
+                    {
+                      loaderData.products.filter(
+                        (product) => product.brand === "Nike",
+                      ).length
+                    }
+                  </span>
+                  )
+                </div>
+              </span>
             </label>
 
             <label className="mt-4 flex items-center gap-3 text-sm">
@@ -142,7 +178,21 @@ export default function CatalogPage({
                   );
                 }}
               />
-              ASICS
+
+              <span className="flex items-center gap-1">
+                <span>ASICS</span>
+                <div>
+                  (
+                  <span className="text-gray-500">
+                    {
+                      loaderData.products.filter(
+                        (product) => product.brand === "ASICS",
+                      ).length
+                    }
+                  </span>
+                  )
+                </div>
+              </span>
             </label>
 
             <label className="mt-4 flex items-center gap-3 text-sm">
@@ -157,8 +207,90 @@ export default function CatalogPage({
                   );
                 }}
               />
-              Birkenstock
+
+              <span className="flex items-center gap-1">
+                <span>Birkenstock</span>
+                <div>
+                  (
+                  <span className="text-gray-500">
+                    {
+                      loaderData.products.filter(
+                        (product) => product.brand === "Birkenstock",
+                      ).length
+                    }
+                  </span>
+                  )
+                </div>
+              </span>
             </label>
+            <label className="mt-4 flex items-center gap-3 text-sm pb-10">
+              <input
+                type="checkbox"
+                className="rounded-2xl"
+                checked={selectedBrands.includes("Saucony")}
+                onChange={() => {
+                  setSelectedBrands((brands) =>
+                    brands.includes("Saucony")
+                      ? brands.filter((brand) => brand !== "Saucony")
+                      : [...brands, "Saucony"],
+                  );
+                }}
+              />
+
+              <span className="flex items-center gap-1">
+                <span>Saucony</span>
+                <div>
+                  (
+                  <span className="text-gray-500">
+                    {
+                      loaderData.products.filter(
+                        (product) => product.brand === "Saucony",
+                      ).length
+                    }
+                  </span>
+                  )
+                </div>
+              </span>
+            </label>
+          </div>
+
+          {/* size filters */}
+          <div className="border-t border-gray-200 flex h-14 items-center">
+            <h2 className="text-sm font-bold">Size</h2>
+          </div>
+
+          <div className="pt-2">
+            {availableSizes.map((size) => {
+              const sizeCount = loaderData.products.filter((product) =>
+                product.sizes.includes(size),
+              ).length;
+
+              return (
+                <label
+                  key={size}
+                  className="mt-4 flex items-center gap-3 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedSizes.includes(size)}
+                    onChange={() => {
+                      setSelectedSizes((sizes) =>
+                        sizes.includes(size)
+                          ? sizes.filter(
+                              (selectedSize) => selectedSize !== size,
+                            )
+                          : [...sizes, size],
+                      );
+                    }}
+                  />
+
+                  <span className="flex items-center gap-1">
+                    <span>{size}</span>
+                    <span className="text-gray-500">({sizeCount})</span>
+                  </span>
+                </label>
+              );
+            })}
           </div>
         </aside>
 
@@ -253,7 +385,7 @@ export default function CatalogPage({
             </div>
 
             <div className="text-sm">
-              {loaderData.products.length} items:
+              {filteredProducts.length} items:
               <button type="button" className="ml-2 font-bold underline">
                 Show More
               </button>
@@ -261,13 +393,14 @@ export default function CatalogPage({
           </div>
 
           {/* Product grid will go here */}
+
           <div
             className={`mt-6 grid gap-4 mb-10 ${
               gridColumns === 3 ? "grid-cols-3" : "grid-cols-4"
             }`}
           >
-            {loaderData.products.map((product) => (
-              <div key={product.name}>
+            {filteredProducts.map((product, index) => (
+              <div key={`${product.name}-${index}`}>
                 <div className="relative">
                   <img
                     src={product.image}
@@ -275,14 +408,14 @@ export default function CatalogPage({
                     className="w-full h-65 object-cover"
                   />
 
-                  <div className="absolute top-0 bg-[#979797] text-center  w-full py-3 text-xs text-gray-200 font-medium">
+                  <div className="absolute top-0 bg-[#979797] text-center w-full py-3 text-xs text-gray-200 font-medium">
                     FREE DELIVERY
                   </div>
                 </div>
 
                 <div className="pt-4">
                   <h3 className="text-sm font-medium">{product.name}</h3>
-
+                  <p className="text-xs text-red-500">{product.brand}</p>
                   <p className="mt-2 text-sm">£{product.price}</p>
                 </div>
               </div>
