@@ -24,37 +24,39 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function CatalogPage({ loaderData }: Route.ComponentProps) {
   const [showMore, setShowMore] = useState(false);
   const [gridColumns, setGridColumns] = useState(4);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
-  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<typeof availableBrands[number][]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<typeof availableSizes[number][]>([]);
+  const [selectedStyles, setSelectedStyles] = useState<typeof availableStyles[number][]>([]);
+  const [selectedColors, setSelectedColors] = useState<typeof availableColors[number][]>([]);
   const [minPrice, setMinPrice] = useState(20);
   const [maxPrice, setMaxPrice] = useState(480);
 
+  const filteredProducts = loaderData.products.filter((product) => {
+    const matchesBrand =
+      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
-const filteredProducts = loaderData.products.filter((product) => {
-  const matchesBrand =
-    selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+    const matchesSize =
+      selectedSizes.length === 0 ||
+      selectedSizes.some((size) => product.sizes.includes(size));
 
-  const matchesSize =
-    selectedSizes.length === 0 ||
-    selectedSizes.some((size) => product.sizes.includes(size));
+    const matchesStyle =
+      selectedStyles.length === 0 ||
+      product.styles.some((style) => selectedStyles.includes(style));
 
-  const matchesStyle =
-    selectedStyles.length === 0 ||
-    product.styles.some((style) => selectedStyles.includes(style));
+    const matchesColor =
+      selectedColors.length === 0 ||
+      product.colors.some((color) => selectedColors.includes(color));
 
-  const matchesColor =
-    selectedColors.length === 0 ||
-    product.colors.some((color) => selectedColors.includes(color));
+    const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
 
-  const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
-
-  return (
-    matchesBrand && matchesSize && matchesStyle && matchesColor && matchesPrice
-  );
-});
-
+    return (
+      matchesBrand &&
+      matchesSize &&
+      matchesStyle &&
+      matchesColor &&
+      matchesPrice
+    );
+  });
 
   const availableSizes = [
     ...new Set(loaderData.products.flatMap((product) => product.sizes)),
@@ -74,7 +76,7 @@ const filteredProducts = loaderData.products.filter((product) => {
 
   return (
     <main>
-      <div className="px-10 pt-10 text-center">
+      <div className="px-4 pt-6 sm:px-6 lg:px-10 text-center">
         <h1 className="text-4xl font-bold">{loaderData.title}</h1>
 
         <p className="mx-auto mt-8 max-w-7xl text-center text-lg leading-7 sm:border-l sm:border-r">
@@ -103,7 +105,7 @@ const filteredProducts = loaderData.products.filter((product) => {
       </div>
 
       {/* Links */}
-      <div className="mt-10 grid grid-cols-2 border-y border-gray-200 md:grid-cols-3 lg:grid-cols-6">
+      <div className="mt-6 grid grid-cols-2 border-y border-gray-200 md:grid-cols-3 lg:grid-cols-6">
         {loaderData.links.map((link) => (
           <a
             key={link}
@@ -116,7 +118,7 @@ const filteredProducts = loaderData.products.filter((product) => {
       </div>
 
       {/* Breadcrumb */}
-      <nav className="px-10 py-6 text-sm">
+      <nav className="px-50 py-6 text-sm">
         <a href="/">Home</a>
         <ChevronRight className="mx-2 inline h-4 w-4" />
         <span className="capitalize">{loaderData.gender}</span>
@@ -124,7 +126,7 @@ const filteredProducts = loaderData.products.filter((product) => {
         <span className="capitalize">{loaderData.category}</span>
       </nav>
 
-      <div className="grid grid-cols-[240px_1fr] gap-6 px-10">
+      <div className="grid grid-cols-1 gap-6 px-4 lg:grid-cols-[240px_1fr] lg:px-10">
         {/* Filter sidebar */}
         <aside>
           {/* Brand filter */}
@@ -132,7 +134,7 @@ const filteredProducts = loaderData.products.filter((product) => {
             <h2 className="text-sm font-bold">Brand</h2>
           </div>
 
-          <div className="border-t border-gray-200 pt-5">
+          <div className="border-t border-gray-200 pt-5 overflow-y-auto max-h-[calc(100vh-12rem)]">
             {availableBrands.map((brand, index) => {
               const brandCount = loaderData.products.filter(
                 (product) => product.brand === brand,
@@ -173,7 +175,7 @@ const filteredProducts = loaderData.products.filter((product) => {
 
           <div className="pt-2">
             {availableSizes.map((size) => {
-              const sizeCount = loaderData.products.filter((product) =>
+              const sizeCount = loaderData.products.filter((product): product is typeof product & { sizes: readonly number[] } =>
                 product.sizes.includes(size),
               ).length;
 
@@ -247,7 +249,7 @@ const filteredProducts = loaderData.products.filter((product) => {
 
           <div className="pb-10 pt-2">
             {availableColors.map((color) => {
-              const colorCount = loaderData.products.filter((product) =>
+              const colorCount = loaderData.products.filter((product): product is typeof product & { colors: readonly string[] } =>
                 product.colors.includes(color),
               ).length;
 
@@ -298,7 +300,7 @@ const filteredProducts = loaderData.products.filter((product) => {
             {/* Dual-handle slider */}
             <div className="relative mt-2 h-8">
               {/* Slider track */}
-              <div className="absolute top-1/2 h-1 w-full -translate-y-1/2 bg-gray-200">
+              <div className="absolute top-1/2 h-3 w-full -translate-y-1/2 bg-gray-200">
                 <div
                   className="absolute h-full bg-black"
                   style={{
@@ -346,7 +348,7 @@ const filteredProducts = loaderData.products.filter((product) => {
 
         {/* Products area */}
         <section>
-          <div className="flex h-14 items-center justify-between border-y border-gray-200">
+          <div className="flex h-14 items-center justify-between border-y border-gray-200 flex-wrap gap-2">
             <div className="flex items-center gap-4">
               <span className="text-sm">Sort by</span>
 
@@ -421,7 +423,7 @@ const filteredProducts = loaderData.products.filter((product) => {
           >
             {filteredProducts.map((product, index) => (
               <div key={`${product.name}-${index}`}>
-                <div className="relative">
+                <div className="relative overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
